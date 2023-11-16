@@ -3,9 +3,8 @@ import pygame
 from objects.Game import Game
 
 game = Game()
+game.crate_players(6)
 
-for wikinger in game.wikings:
-    print(wikinger)
 exit()
 # pygame setup
 pygame.init()
