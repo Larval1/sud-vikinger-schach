@@ -12,10 +12,10 @@ class Game:
     def _summon_wikinger(self):
         wikinger = []
         for i in range(0, 2):
-            wikinger.append (Wiking())
-        wikinger.append (WikingKing())
+            wikinger.append (Wiking(len(wikinger)))
+        wikinger.append (WikingKing(len(wikinger)))
         for i in range(0, 2):
-            wikinger.append(Wiking())
+            wikinger.append(Wiking(len(wikinger)))
 
         return wikinger
 

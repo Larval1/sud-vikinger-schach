@@ -1,11 +1,18 @@
 import pygame
-
+import argparse
 from objects.Game import Game
+
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--debug', choices=['true'])
+# args = parser.parse_args()
 
 game = Game()
 game.crate_players(6)
 
-exit()
+exit('Debug mode exit now ...')
+# if args.debug=='true':
+#     exit('Debug mode exit now ...')
+
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))

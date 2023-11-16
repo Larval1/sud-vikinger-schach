@@ -2,7 +2,8 @@ import pygame
 
 class Wiking(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, wiking_nummber):
         pygame.sprite.Sprite.__init__(self)
-        print('Im a Wiking')
+        self.wiking_nummber=wiking_nummber
+        print(f'Im a Wiking {self.wiking_nummber}')
 
