@@ -4,9 +4,9 @@ from objects.Game import Game
 
 game = Game()
 
-for wikinger in game.wikinger:
+for wikinger in game.wikings:
     print(wikinger)
-
+exit()
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
