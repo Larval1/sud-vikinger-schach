@@ -1,5 +1,5 @@
 import pygame
-import argparse
+# import argparse
 from objects.Game import Game
 
 # parser = argparse.ArgumentParser()
