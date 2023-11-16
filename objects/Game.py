@@ -1,5 +1,5 @@
-from objects.WikingKing import WikingKing
-from objects.Wiking import Wiking
+from objects.King import King
+from objects.GamePiece import GamePiece
 from objects.Player import Player
 
 
@@ -12,10 +12,10 @@ class Game:
     def _summon_wikinger(self):
         wikinger = []
         for i in range(0, 2):
-            wikinger.append (Wiking())
-        wikinger.append (WikingKing())
+            wikinger.append (GamePiece())
+        wikinger.append (King())
         for i in range(0, 2):
-            wikinger.append(Wiking())
+            wikinger.append(GamePiece())
 
         return wikinger
 
