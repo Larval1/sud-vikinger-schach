@@ -1,7 +1,6 @@
 from objects.Wikinger import Wikinger
 
-
-class Knecht(Wikinger):
+class König(Wikinger):
     def __init__(self):
         super().__init__()
-        print('im a Knecht')
+        print('im a König')
