@@ -1,8 +1,11 @@
 import pygame
 
-from objects.game import Game
+from objects.Game import Game
 
 game = Game()
+
+for wikinger in game.wikinger:
+    print(wikinger)
 
 # pygame setup
 pygame.init()
