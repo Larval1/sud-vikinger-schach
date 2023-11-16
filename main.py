@@ -9,7 +9,6 @@ from objects.Game import Game
 game = Game()
 game.crate_players(6)
 
-exit('Debug mode exit now ...')
 # if args.debug=='true':
 #     exit('Debug mode exit now ...')
 
