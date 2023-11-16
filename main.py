@@ -3,10 +3,9 @@ import pygame
 from objects.Game import Game
 
 game = Game()
+game.crate_players(6)
 
-for wikinger in game.wikinger:
-    print(wikinger)
-
+exit()
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
