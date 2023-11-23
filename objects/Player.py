@@ -1,5 +1,3 @@
-import logging
-
 import pygame as pg
 import logging
 class Player(pg.sprite.Sprite):
@@ -7,4 +5,3 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.name = name
         self.team = team
-        logging.debug(f'Player with Name {self.name} in Team {self.team}')

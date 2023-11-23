@@ -1,9 +1,11 @@
 import pygame as pg
 from objects.King import King
 from objects.GamePiece import GamePiece
+from objects.ThrowPowerBar import ThrowPowerBar
 from objects.Player import Player
 
-def start_game(args):
+
+def start_game():
     # pygame setup
     pg.init()
     screen = pg.display.set_mode((1280, 720))
@@ -39,6 +41,21 @@ def start_game(args):
             x = game.game_pieces[i]
             pg.draw.circle(screen, x.color, x.pos, 10)
 
+        keys = pg.key.get_pressed()
+        if keys[pg.K_SPACE]:
+            game.throw_power_bar.trow_power_increase(dt)
+        else:
+            game.throw_power_bar.trow_power_decrease(dt)
+
+        pg.draw.line(
+            screen,
+            "pink",
+            pg.Vector2((screen.get_width() / 100) * 99, screen.get_height()),
+            pg.Vector2((screen.get_width() / 100) * 99,
+                       screen.get_height()-(screen.get_height() / 100) * game.throw_power_bar.get_throw_power()),
+            5
+        )
+
         # pg.draw.circle(screen, "red", playerPosition1, 20)
         # pg.draw.circle(screen, "blue", playerPosition2, 20)
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStart, 3)
@@ -58,6 +75,7 @@ def start_game(args):
 
 class Game:
     def __init__(self):
+        self.throw_power_bar = ThrowPowerBar()
         self.player_list = []
         self.game_pieces = []
 
