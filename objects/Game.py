@@ -3,7 +3,6 @@ from objects.King import King
 from objects.GamePiece import GamePiece
 from objects.Player import Player
 
-
 def start_game(args):
     # pygame setup
     pg.init()
@@ -38,8 +37,7 @@ def start_game(args):
 
         for i in range(0, len(game.game_pieces)):
             x = game.game_pieces[i]
-            pg.draw.circle(screen, x.color, x.pos, 10 )
-
+            pg.draw.circle(screen, x.color, x.pos, 10)
 
         # pg.draw.circle(screen, "red", playerPosition1, 20)
         # pg.draw.circle(screen, "blue", playerPosition2, 20)
@@ -70,13 +68,13 @@ class Game:
     def setup_game_pieces(self, width, height):
         temp_height = 0
         for i in range(0, 2):
-            temp_height += height/6
-            self.game_pieces.append(GamePiece(width/2, temp_height))
+            temp_height += height / 6
+            self.game_pieces.append(GamePiece(width / 2, temp_height))
         temp_height += height / 6
-        self.game_pieces.append(King(width/2, height/2))
+        self.game_pieces.append(King(width / 2, height / 2))
         for i in range(0, 2):
             temp_height += height / 6
-            self.game_pieces.append(GamePiece(width/2, temp_height))
+            self.game_pieces.append(GamePiece(width / 2, temp_height))
 
     def create_players(self, number):
         for i in range(1, number + 1):

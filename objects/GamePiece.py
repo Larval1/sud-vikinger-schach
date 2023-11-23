@@ -1,4 +1,5 @@
 import pygame as pg
+import logging
 
 
 class GamePiece(pg.sprite.Sprite):
@@ -9,9 +10,7 @@ class GamePiece(pg.sprite.Sprite):
         self.pos = pg.Vector2(pos_x, pos_y)
         self.pos_x = pos_x
         self.pos_y = pos_y
-        print('Im a Wiking')
-        print(f'x {pos_x}')
-        print(f'x {pos_y}')
+        logging.debug(f'GamePiece created at x: {pos_x} y: {pos_y}')
 
     def set_pos(self, pos_x, pos_y):
         self.pos = pg.Vector2(pos_x, pos_y)
