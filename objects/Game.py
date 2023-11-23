@@ -4,7 +4,7 @@ from objects.GamePiece import GamePiece
 from objects.Player import Player
 
 
-def start_game():
+def start_game(args):
     # pygame setup
     pg.init()
     screen = pg.display.set_mode((1280, 720))

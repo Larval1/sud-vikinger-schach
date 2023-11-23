@@ -4,5 +4,5 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.name = name
         self.team = team
-        print(self.name)
-        print(self.team)
+        print(f'name {self.name}')
+        print(f'team {self.team}')

@@ -10,8 +10,8 @@ class GamePiece(pg.sprite.Sprite):
         self.pos_x = pos_x
         self.pos_y = pos_y
         print('Im a Wiking')
-        print(pos_x)
-        print(pos_y)
+        print(f'x {pos_x}')
+        print(f'x {pos_y}')
 
     def set_pos(self, pos_x, pos_y):
         self.pos = pg.Vector2(pos_x, pos_y)

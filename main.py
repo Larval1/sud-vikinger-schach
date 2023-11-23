@@ -1,8 +1,10 @@
-import objects.Game as game
+import objects.Game as game, argparse
 
-game.start_game()
+parser = argparse.ArgumentParser()
+parser.add_argument('--debug', choices=['true'])
+args = parser.parse_args()
 
+if args.debug == 'true':
+    print('Debug mode')
 
-
-
-
+game.start_game(args)
