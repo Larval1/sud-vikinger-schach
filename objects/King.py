@@ -2,6 +2,6 @@ from objects.GamePiece import GamePiece
 
 
 class King(GamePiece):
-    def __init__(self,wiking_nummber):
-        super().__init__(wiking_nummber)
-        print('but wait im also the king')
+    def __init__(self, pos_x, pos_y):
+        GamePiece.__init__(self, pos_x, pos_y)
+        print('im also the king')

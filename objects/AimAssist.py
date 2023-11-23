@@ -1,7 +1,9 @@
-class Aiming:
+import pygame as pg
 
-    def __int__(self, player_position):
-        self.playerPosition = player_position
+
+class AimAssist(pg.sprite.Sprite):
+    def __int__(self):
+        pg.sprite.Sprite.__init__(self)
         return
 
     def start_aiming(self):
