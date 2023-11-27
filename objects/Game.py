@@ -42,53 +42,42 @@ def start_game():
     #    x = game.players[i]
     #    pg.draw.circle(screen, x.color, x.pos, 20)
 
+    allsprites = pg.sprite.RenderPlain(game.aim_assist)
+
     while running:
+        screen.fill('#80B2C9')
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+            if event.type == pg.MOUSEBUTTONDOWN:
+                match game.get_game_state():
+                    case 'aim_assist':
+                        if not game.aim_assist.is_moving():
+                            game.aim_assist.start_moving()
+                        else:
+                            game.aim_assist.stop_moving()
+                            game.next_game_state()
+                    case 'trow_power':
+                        if not game.throw_power_bar.is_moving():
+                            game.throw_power_bar.start_moving()
+                        else:
+                            game.throw_power_bar.stop_moving()
+                            game.next_game_state()
 
+            match game.get_game_state():
+               case 'hit':
+                   print(game.aim_assist.get_target())
+                   print(game.throw_power_bar.get_throw_power())
+                   exit()
+        allsprites.update()
+        game.throw_power_bar.update()
         # fill the screen with a color to wipe away anything from last frame
-        screen.fill('#80B2C9')
+        # allsprites.draw(screen)
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
-
-        for i in range(0, len(game.game_pieces)):
-            x = game.game_pieces[i]
-            pg.draw.circle(screen, 'red', x.pos, 10)
-
-        keys = pg.key.get_pressed()
-        if keys[pg.K_SPACE]:
-            game.throw_power_bar.trow_power_increase(dt)
-        else:
-            game.throw_power_bar.trow_power_decrease(dt)
-
-        pg.draw.line(
-            screen,
-            "pink",
-            power_bar_start,
-            pg.Vector2((screen.get_width() / 100) * 99,
-                       screen.get_height() - (screen.get_height() / 100) * game.throw_power_bar.get_throw_power()),
-            5
-        )
-
-        game.aim_assist.move_aim_assist(dt)
-        # game.aim_assist.
-
-        pg.draw.line(
-            screen,
-            "green",
-            pg.Vector2(0, screen.get_height() / 2),
-            pg.Vector2(screen.get_width() / 2, screen.get_height() / 100 * 50),
-            5
-        )
-
-        pg.draw.circle(screen, "red", playerPosition1, 20)
-        pg.draw.circle(screen, "blue", playerPosition2, 20)
-
-        # pg.draw.line(screen, "yellow", playerPosition1, centerLineStart, 3)
-        # pg.draw.line(screen, "yellow", playerPosition1, centerLineStop, 3)
 
         # flip() the display to put your work on screen
         pg.display.flip()
@@ -109,10 +98,26 @@ class Game:
         self.throw_power_bar = None
         self.player_list = []
         self.game_pieces = []
+        self.game_state = 'aim_assist'
+
+    def next_game_state(self):
+        match self.game_state:
+            case 'aim_assist':
+                self.game_state = 'trow_power'
+                self.throw_power_bar.start_moving()
+            case 'trow_power':
+                self.game_state = 'hit'
+            case 'hit':
+                self.game_state = 'hit'
+
+
+
+    def get_game_state(self):
+        return self.game_state
 
     def setup_game(self, screen):
         self.throw_power_bar = ThrowPowerBar()
-        self.aim_assist = AimAssist(screen)
+        self.aim_assist = AimAssist()
 
         self.create_players(2, screen.get_width(), screen.get_height())
 
