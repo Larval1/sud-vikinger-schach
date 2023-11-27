@@ -28,6 +28,7 @@ def start_game():
 
     game = Game()
     game.setup_game(screen)
+    #all_sprites =
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill('#80B2C9')
@@ -53,10 +54,6 @@ def start_game():
         screen.fill('#80B2C9')
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
-
-        for i in range(0, len(game.game_pieces)):
-            x = game.game_pieces[i]
-            pg.draw.circle(screen, 'red', x.pos, 10)
 
         keys = pg.key.get_pressed()
         if keys[pg.K_SPACE]:
@@ -90,7 +87,12 @@ def start_game():
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStart, 3)
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStop, 3)
 
+        # refresh sprites
+        # screen.blit(pg.Surface(screen.get_size()), (0, 0))
+        game.game_pieces.update()
+        game.game_pieces.draw(screen)
         # flip() the display to put your work on screen
+
         pg.display.flip()
 
         # limits FPS to 60
@@ -102,9 +104,26 @@ def start_game():
     return
 
 
+def load_image(name, color_key=None, scale=1):
+    data_dir = os.path.join(os.path.abspath(""), "assets")
+
+    fullname = os.path.join(data_dir, name)
+    image = pg.image.load(fullname)
+
+    size = image.get_size()
+    size = (size[0] * scale, size[1] * scale)
+    image = pg.transform.scale(image, size)
+
+    image = image.convert()
+    if color_key is not None:
+        if color_key == -1:
+            color_key = image.get_at((0, 0))
+        image.set_colorkey(color_key, pg.RLEACCEL)
+    return image, image.get_rect()
+
+
 class Game:
     def __init__(self):
-
         self.aim_assist = None
         self.throw_power_bar = None
         self.player_list = []
@@ -116,18 +135,22 @@ class Game:
 
         self.create_players(2, screen.get_width(), screen.get_height())
 
-        self.setup_game_pieces(screen.get_width(), screen.get_height())
+        self.game_pieces = pg.sprite.RenderPlain(self.setup_game_pieces(screen.get_width(), screen.get_height()))
+        #self.setup_game_pieces(screen.get_width(), screen.get_height())
 
     def setup_game_pieces(self, width, height):
+        game_pieces = []
         temp_height = 0
         for i in range(0, 2):
             temp_height += height / 6
-            self.game_pieces.append(GamePiece(width / 2, temp_height))
+            game_pieces.append(GamePiece(width / 2, temp_height))
         temp_height += height / 6
-        self.game_pieces.append(King(width / 2, height / 2))
+        game_pieces.append(King(width / 2, height / 2))
         for i in range(0, 2):
             temp_height += height / 6
-            self.game_pieces.append(GamePiece(width / 2, temp_height))
+            game_pieces.append(GamePiece(width / 2, temp_height))
+
+        return game_pieces
 
     def create_players(self, number, width, height):
         for i in range(1, number + 1):
