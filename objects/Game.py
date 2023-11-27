@@ -4,6 +4,7 @@ from objects.GamePiece import GamePiece
 from objects.ThrowPowerBar import ThrowPowerBar
 from objects.AimAssist import AimAssist
 from objects.Player import Player
+import os
 
 
 def start_game():
@@ -27,6 +28,21 @@ def start_game():
 
     game = Game()
     game.setup_game(screen)
+
+    # fill the screen with a color to wipe away anything from last frame
+    screen.fill('#80B2C9')
+
+    pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
+    players = game.players
+    game_pieces = game.game_pieces
+
+    # for i in range(0, len(game.game_pieces)):
+    #    x = game.game_pieces[i]
+    #    pg.draw.circle(screen, x.color, x.pos, 20)
+
+    # for i in range(0, len(game.players)):
+    #    x = game.players[i]
+    #    pg.draw.circle(screen, x.color, x.pos, 20)
 
     while running:
         # poll for events
@@ -71,6 +87,7 @@ def start_game():
 
         pg.draw.circle(screen, "red", playerPosition1, 20)
         pg.draw.circle(screen, "blue", playerPosition2, 20)
+
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStart, 3)
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStop, 3)
 
@@ -88,6 +105,7 @@ def start_game():
 
 class Game:
     def __init__(self):
+
         self.aim_assist = None
         self.throw_power_bar = None
         self.player_list = []
@@ -98,6 +116,7 @@ class Game:
         self.aim_assist = AimAssist(screen)
 
         self.create_players(2)
+
         self.setup_game_pieces(screen.get_width(), screen.get_height())
 
     def setup_game_pieces(self, width, height):
@@ -111,8 +130,18 @@ class Game:
             temp_height += height / 6
             self.game_pieces.append(GamePiece(width / 2, temp_height))
 
-    def create_players(self, number):
+    def create_players(self, number, width, height):
         for i in range(1, number + 1):
-            self.player_list.append(Player(i, i % 2))
+            pos_y = height / 2
+            if i % 2 != 0:
+                team = 1
+                color = "blue"
+                pos_x = 0
+            else:
+                team = 2
+                color = "red"
+                pos_x = width
 
-    # def start_aiming(self, player):
+            self.players.append(Player(i, team, color, pg.Vector2(pos_x, pos_y)))
+
+

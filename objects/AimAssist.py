@@ -1,7 +1,6 @@
 import pygame as pg
 from pygame import Surface
 
-
 class AimAssist(pg.sprite.Sprite):
     def __init__(self, screen: Surface):
         pg.sprite.Sprite.__init__(self)
