@@ -3,7 +3,6 @@ class ThrowPowerBar:
         self.throw_power = 0
 
     def get_throw_power(self):
-        print(self.throw_power)
         return self.throw_power
 
     def trow_power_increase(self, dt):
@@ -12,7 +11,6 @@ class ThrowPowerBar:
                 self.throw_power += 100 * dt
             else:
                 self.throw_power = 100
-        return
 
     def trow_power_decrease(self, dt):
         if (self.throw_power > 0):
@@ -20,4 +18,3 @@ class ThrowPowerBar:
                 self.throw_power -= 100 * dt
             else:
                 self.throw_power = 0
-        return
