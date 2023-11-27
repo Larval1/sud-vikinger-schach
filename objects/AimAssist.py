@@ -19,4 +19,4 @@ class AimAssist(pg.sprite.Sprite):
 
     def move_aim_assist(self, dt):
         if self.moving:
-            self.direction += 1 * dt
+            self.target += 1 * dt

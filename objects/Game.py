@@ -21,7 +21,7 @@ def start_game():
     playerPosition1 = pg.Vector2(0, screen.get_height() / 2)
     playerPosition2 = pg.Vector2(screen.get_width(), screen.get_height() / 2)
 
-    power_bar_start=pg.Vector2((screen.get_width() / 100) * 99, screen.get_height())
+    power_bar_start = pg.Vector2((screen.get_width() / 100) * 99, screen.get_height())
 
     playerNumber = 2
     gamePieceNumber = 6
@@ -33,8 +33,6 @@ def start_game():
     screen.fill('#80B2C9')
 
     pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
-    players = game.players
-    game_pieces = game.game_pieces
 
     # for i in range(0, len(game.game_pieces)):
     #    x = game.game_pieces[i]
@@ -58,7 +56,7 @@ def start_game():
 
         for i in range(0, len(game.game_pieces)):
             x = game.game_pieces[i]
-            pg.draw.circle(screen, x.color, x.pos, 10)
+            pg.draw.circle(screen, 'red', x.pos, 10)
 
         keys = pg.key.get_pressed()
         if keys[pg.K_SPACE]:
@@ -70,7 +68,8 @@ def start_game():
             screen,
             "pink",
             power_bar_start,
-            pg.Vector2((screen.get_width() / 100) * 99,screen.get_height()-(screen.get_height() / 100) * game.throw_power_bar.get_throw_power()),
+            pg.Vector2((screen.get_width() / 100) * 99,
+                       screen.get_height() - (screen.get_height() / 100) * game.throw_power_bar.get_throw_power()),
             5
         )
 
@@ -80,8 +79,8 @@ def start_game():
         pg.draw.line(
             screen,
             "green",
-            pg.Vector2(0,screen.get_height()/2),
-            pg.Vector2(screen.get_width()/2,screen.get_height()/100*50),
+            pg.Vector2(0, screen.get_height() / 2),
+            pg.Vector2(screen.get_width() / 2, screen.get_height() / 100 * 50),
             5
         )
 
@@ -115,7 +114,7 @@ class Game:
         self.throw_power_bar = ThrowPowerBar()
         self.aim_assist = AimAssist(screen)
 
-        self.create_players(2)
+        self.create_players(2, screen.get_width(), screen.get_height())
 
         self.setup_game_pieces(screen.get_width(), screen.get_height())
 
@@ -142,6 +141,4 @@ class Game:
                 color = "red"
                 pos_x = width
 
-            self.players.append(Player(i, team, color, pg.Vector2(pos_x, pos_y)))
-
-
+            self.player_list.append(Player(i, team, color, pg.Vector2(pos_x, pos_y)))
