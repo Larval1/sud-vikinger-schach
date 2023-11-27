@@ -2,6 +2,7 @@ import pygame as pg
 import os
 
 
+
 class GamePiece(pg.sprite.Sprite):
 
     def __init__(self, pos_x, pos_y):
@@ -10,9 +11,6 @@ class GamePiece(pg.sprite.Sprite):
         self.pos = pg.Vector2(pos_x, pos_y)
         self.pos_x = pos_x
         self.pos_y = pos_y
-        print('Im a Wiking')
-        print(pos_x)
-        print(pos_y)
 
     def set_pos(self, pos_x, pos_y):
         self.pos = pg.Vector2(pos_x, pos_y)

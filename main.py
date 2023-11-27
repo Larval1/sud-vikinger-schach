@@ -1,8 +1,4 @@
-import objects.Game as game
-
-game.start_game()
+import objects.Game as Game
 
 
-
-
-
+Game.start_game()
