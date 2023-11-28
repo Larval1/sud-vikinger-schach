@@ -13,6 +13,14 @@ class GamePiece(pg.sprite.Sprite):
         self.area = self.screen.get_rect()
         self.rect.topleft = pos_x - self.rect.width/2, pos_y - self.rect.height/2
 
-    def update(self):
+    def update(self,y,x):
         #self.rect.topleft = pos_x - self.rect.width/2, pos_y - self.rect.height/2
+        if self.check_kolision(y,x):
+            self.image=pg.transform.grayscale(self.image, self.image)
         return
+    def check_kolision(self,y,x):
+        if(self.rect.clipline(y,x)):
+            return True
+        else:
+            return False
+

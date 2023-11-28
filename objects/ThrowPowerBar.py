@@ -24,6 +24,7 @@ class ThrowPowerBar:
 
     def update(self):
         self.move_powerbar()
+
         pg.draw.line(
             self.screen,
             "pink",
@@ -45,19 +46,3 @@ class ThrowPowerBar:
                     self.throw_power -= 10
                 else:
                     self.direction = 'down'
-    def load_image(self, name, color_key=None, scale=1):
-        data_dir = os.path.join(os.path.abspath(""), "assets")
-
-        fullname = os.path.join(data_dir, name)
-        image = pg.image.load(fullname)
-
-        size = image.get_size()
-        size = (size[0] * scale, size[1] * scale)
-        image = pg.transform.scale(image, size)
-
-        image = image.convert()
-        if color_key is not None:
-            if color_key == -1:
-                color_key = image.get_at((0, 0))
-            image.set_colorkey(color_key, pg.RLEACCEL)
-        return image, image.get_rect()

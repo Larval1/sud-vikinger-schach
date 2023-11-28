@@ -1,18 +1,15 @@
 import os
 
 import pygame as pg
-from pygame import Surface
 
 
-class AimAssist(pg.sprite.Sprite):
+class AimAssist:
     def __init__(self):
-        pg.sprite.Sprite.__init__(self)
-        self.image, self.rect = self.load_image("Aimassist.png",(255,255,255,255), 4)
-        self.rect.topleft = 10, 90
         self.moving = False
         self.screen = pg.display.get_surface()
         self.target = 0
         self.direction = 'down'
+        self.y=pg.Vector2(0, self.screen.get_height() / 2)
 
     def get_target(self):
         return self.target
@@ -26,16 +23,16 @@ class AimAssist(pg.sprite.Sprite):
         self.moving = False
 
     def update(self):
-        self.move_taget()
+        self.move_target()
 
         pg.draw.line(
             self.screen,
             "green",
-            pg.Vector2(0, self.screen.get_height() / 2),
+            self.y,
             pg.Vector2(self.screen.get_width() / 2, self.screen.get_height() / self.screen.get_height() * self.target),
             5
         )
-    def move_taget(self):
+    def move_target(self):
         if self.moving:
             if self.direction == 'down':
                 if (self.target < self.screen.get_height()):
@@ -48,19 +45,3 @@ class AimAssist(pg.sprite.Sprite):
                 else:
                     self.direction = 'down'
 
-    def load_image(self, name, color_key=None, scale=1):
-        data_dir = os.path.join(os.path.abspath(""), "assets")
-
-        fullname = os.path.join(data_dir, name)
-        image = pg.image.load(fullname)
-
-        size = image.get_size()
-        size = (size[0] * scale, size[1] * scale)
-        image = pg.transform.scale(image, size)
-
-        image = image.convert()
-        if color_key is not None:
-            if color_key == -1:
-                color_key = image.get_at((0, 0))
-            image.set_colorkey(color_key, pg.RLEACCEL)
-        return image, image.get_rect()

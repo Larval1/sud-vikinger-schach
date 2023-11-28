@@ -21,10 +21,6 @@ def start_game():
     playerPosition1 = pg.Vector2(0, screen.get_height() / 2)
     playerPosition2 = pg.Vector2(screen.get_width(), screen.get_height() / 2)
 
-    power_bar_start = pg.Vector2((screen.get_width() / 100) * 99, screen.get_height())
-
-    playerNumber = 2
-    gamePieceNumber = 6
 
     game = Game()
     game.setup_game(screen)
@@ -42,8 +38,6 @@ def start_game():
     #    x = game.players[i]
     #    pg.draw.circle(screen, x.color, x.pos, 20)
 
-    allsprites = pg.sprite.RenderPlain(game.aim_assist)
-
     while running:
         screen.fill('#80B2C9')
         # poll for events
@@ -56,6 +50,7 @@ def start_game():
                     case 'aim_assist':
                         if not game.aim_assist.is_moving():
                             game.aim_assist.start_moving()
+
                         else:
                             game.aim_assist.stop_moving()
                             game.next_game_state()
@@ -66,43 +61,14 @@ def start_game():
                             game.throw_power_bar.stop_moving()
                             game.next_game_state()
 
-            match game.get_game_state():
-               case 'hit':
-                   print(game.aim_assist.get_target())
-                   print(game.throw_power_bar.get_throw_power())
-                   exit()
-        allsprites.update()
-        game.throw_power_bar.update()
+            # match :
+            #    case 'hit':
+            #         pass
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
 
-        keys = pg.key.get_pressed()
-        if keys[pg.K_SPACE]:
-            game.throw_power_bar.trow_power_increase(dt)
-        else:
-            game.throw_power_bar.trow_power_decrease(dt)
-
-        pg.draw.line(
-            screen,
-            "pink",
-            power_bar_start,
-            pg.Vector2((screen.get_width() / 100) * 99,
-                       screen.get_height() - (screen.get_height() / 100) * game.throw_power_bar.get_throw_power()),
-            5
-        )
-
-        game.aim_assist.move_aim_assist(dt)
-        # game.aim_assist.
-
-        pg.draw.line(
-            screen,
-            "green",
-            pg.Vector2(0, screen.get_height() / 2),
-            pg.Vector2(screen.get_width() / 2, screen.get_height() / 100 * 50),
-            5
-        )
 
         pg.draw.circle(screen, "red", playerPosition1, 20)
         pg.draw.circle(screen, "blue", playerPosition2, 20)
@@ -112,8 +78,15 @@ def start_game():
 
         # refresh sprites
         # screen.blit(pg.Surface(screen.get_size()), (0, 0))
-        game.game_pieces.update()
+        game.game_pieces.update(
+            game.aim_assist.y,
+            pg.Vector2(screen.get_width() / 2, screen.get_height() / screen.get_height() * game.aim_assist.get_target()),
+            game.get_game_state()=='hit'
+        )
         game.game_pieces.draw(screen)
+
+        game.throw_power_bar.update()
+        game.aim_assist.update()
         # flip() the display to put your work on screen
         pg.display.flip()
 
