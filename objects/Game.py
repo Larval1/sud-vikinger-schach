@@ -88,8 +88,6 @@ def start_game():
         match game.get_game_state():
             case 'hit':
                 game.next_game_state()
-
-        match game.get_game_state():
             case 'reset':
                 game.next_game_state()
 
@@ -139,7 +137,8 @@ class Game:
                 # self.aim_assist.reset()
                 self.game_state = 'reset'
             case 'reset':
-                # self.aim_assist.reset()
+                self.aim_assist.reset()
+                self.aim_assist.start_up_down_moving()
                 self.game_state = 'aim_assist'
 
     def get_game_state(self):
@@ -149,6 +148,7 @@ class Game:
         self.aim_assist = AimAssist()
 
         self.create_players(2, screen.get_width(), screen.get_height())
+
 
         self.game_pieces = pg.sprite.RenderPlain(self.setup_game_pieces(screen.get_width(), screen.get_height()))
         # self.setup_game_pieces(screen.get_width(), screen.get_height())

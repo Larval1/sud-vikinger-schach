@@ -4,21 +4,27 @@ import pygame as pg
 
 
 class AimAssist:
-    def __init__(self,):
+    def __init__(self, ):
         self.up_down_moving = False
         self.side_side_moving = False
         self.screen = pg.display.get_surface()
         self.height = 0
         self.width = 0
-        self.direction = 'down'
-        # self.y = pg.Vector2(0, self.screen.get_height() / 2)
+        self.height_direction = False
+        self.width_direction = False
+        self.start_side = True
 
     def reset(self):
-        self.direction = 'down'
+        self.start_side=not self.start_side
+        if self.start_side:
+            self.width = 0
+        else:
+            self.width =self.screen.get_width()
+
         self.height = 0
-        self.width = 0
         self.up_down_moving = False
         self.side_side_moving = False
+
 
     def get_height(self):
         return self.height
@@ -64,26 +70,26 @@ class AimAssist:
 
     def move_height(self):
         if self.up_down_moving:
-            if self.direction == 'down':
-                if (self.height < self.screen.get_height()):
+            if not self.height_direction:
+                if self.height < self.screen.get_height():
                     self.height += 10
                 else:
-                    self.direction = 'up'
-            elif self.direction == 'up':
+                    self.height_direction = True
+            elif self.height_direction:
                 if self.height >= 0:
                     self.height -= 10
                 else:
-                    self.direction = 'down'
+                    self.height_direction = False
 
     def move_width(self):
         if self.side_side_moving:
-            if self.direction == 'down':
+            if not self.width_direction:
                 if self.width < self.screen.get_width():
                     self.width += 10
                 else:
-                    self.direction = 'up'
-            elif self.direction == 'up':
+                    self.width_direction = True
+            elif self.width_direction:
                 if self.width >= 0:
                     self.width -= 10
                 else:
-                    self.direction = 'down'
+                    self.width_direction = False
