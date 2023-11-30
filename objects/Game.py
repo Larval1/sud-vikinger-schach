@@ -1,7 +1,6 @@
 import pygame as pg
 from objects.King import King
 from objects.GamePiece import GamePiece
-from objects.ThrowPowerBar import ThrowPowerBar
 from objects.AimAssist import AimAssist
 from objects.Player import Player
 import os
@@ -20,7 +19,6 @@ def start_game():
 
     playerPosition1 = pg.Vector2(0, screen.get_height() / 2)
     playerPosition2 = pg.Vector2(screen.get_width(), screen.get_height() / 2)
-
 
     game = Game()
     game.setup_game(screen)
@@ -48,27 +46,25 @@ def start_game():
             if event.type == pg.MOUSEBUTTONDOWN:
                 match game.get_game_state():
                     case 'aim_assist':
-                        if not game.aim_assist.is_moving():
-                            game.aim_assist.start_moving()
+                        if not game.aim_assist.is_up_down_moving():
+                            game.aim_assist.start_up_down_moving()
 
                         else:
-                            game.aim_assist.stop_moving()
+                            game.aim_assist.stop_up_down_moving()
                             game.next_game_state()
                     case 'trow_power':
-                        if not game.throw_power_bar.is_moving():
-                            game.throw_power_bar.start_moving()
+                        if not game.aim_assist.is_side_side_moving():
+                            game.aim_assist.start_side_side_moving()
                         else:
-                            game.throw_power_bar.stop_moving()
+                            game.aim_assist.stop_side_side_moving()
                             game.next_game_state()
 
-            # match :
-            #    case 'hit':
-            #         pass
+
+
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
-
 
         pg.draw.circle(screen, "red", playerPosition1, 20)
         pg.draw.circle(screen, "blue", playerPosition2, 20)
@@ -79,16 +75,23 @@ def start_game():
         # refresh sprites
         # screen.blit(pg.Surface(screen.get_size()), (0, 0))
         game.game_pieces.update(
-            game.aim_assist.y,
-            pg.Vector2(screen.get_width() / 2, screen.get_height() / screen.get_height() * game.aim_assist.get_target()),
-            game.get_game_state()=='hit'
+            screen.get_width() / screen.get_width() * game.aim_assist.get_width(),
+            screen.get_height() / screen.get_height() * game.aim_assist.get_height(),
+            game.get_game_state()
         )
         game.game_pieces.draw(screen)
 
-        game.throw_power_bar.update()
-        game.aim_assist.update()
+        game.aim_assist.update(game.get_game_state())
         # flip() the display to put your work on screen
         pg.display.flip()
+
+        match game.get_game_state():
+            case 'hit':
+                game.next_game_state()
+
+        match game.get_game_state():
+            case 'reset':
+                game.next_game_state()
 
         # limits FPS to 60
         # dt is delta time in seconds since last frame, used for framerate-
@@ -121,34 +124,34 @@ class Game:
     def __init__(self):
 
         self.aim_assist = None
-        self.throw_power_bar = None
         self.player_list = []
-        self.game_pieces = []
+        self.game_pieces = list[GamePiece]
         self.game_state = 'aim_assist'
 
     def next_game_state(self):
         match self.game_state:
             case 'aim_assist':
                 self.game_state = 'trow_power'
-                self.throw_power_bar.start_moving()
+                self.aim_assist.start_side_side_moving()
             case 'trow_power':
                 self.game_state = 'hit'
             case 'hit':
-                self.game_state = 'hit'
-
-
+                # self.aim_assist.reset()
+                self.game_state = 'reset'
+            case 'reset':
+                # self.aim_assist.reset()
+                self.game_state = 'aim_assist'
 
     def get_game_state(self):
         return self.game_state
 
     def setup_game(self, screen):
-        self.throw_power_bar = ThrowPowerBar()
         self.aim_assist = AimAssist()
 
         self.create_players(2, screen.get_width(), screen.get_height())
 
         self.game_pieces = pg.sprite.RenderPlain(self.setup_game_pieces(screen.get_width(), screen.get_height()))
-        #self.setup_game_pieces(screen.get_width(), screen.get_height())
+        # self.setup_game_pieces(screen.get_width(), screen.get_height())
 
     def setup_game_pieces(self, width, height):
         game_pieces = []

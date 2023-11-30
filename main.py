@@ -1,4 +1,6 @@
 import objects.Game as Game
 
-
-Game.start_game()
+try:
+    Game.start_game()
+except KeyboardInterrupt:
+    print('Bai bai')
