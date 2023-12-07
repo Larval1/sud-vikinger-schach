@@ -59,8 +59,6 @@ def start_game():
                             game.aim_assist.stop_side_side_moving()
                             game.next_game_state()
 
-
-
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
 
@@ -72,16 +70,25 @@ def start_game():
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStart, 3)
         # pg.draw.line(screen, "yellow", playerPosition1, centerLineStop, 3)
 
+        x = pg.Vector2(0, screen.get_height() /2)
+        pg.draw.line(screen, "yellow", x, x+game.aim_assist.get_vector(), 3)
+        pg.draw.circle(
+            screen,
+            "green",
+            (x+game.aim_assist.get_vector()),
+            50,
+        )
+
+
         # refresh sprites
-        # screen.blit(pg.Surface(screen.get_size()), (0, 0))
         game.game_pieces.update(
-            screen.get_width() / screen.get_width() * game.aim_assist.get_width(),
-            screen.get_height() / screen.get_height() * game.aim_assist.get_height(),
+            x+game.aim_assist.get_vector(),
             game.get_game_state()
         )
         game.game_pieces.draw(screen)
 
         game.aim_assist.update(game.get_game_state())
+
         # flip() the display to put your work on screen
         pg.display.flip()
 
@@ -149,7 +156,6 @@ class Game:
 
         self.create_players(2, screen.get_width(), screen.get_height())
 
-
         self.game_pieces = pg.sprite.RenderPlain(self.setup_game_pieces(screen.get_width(), screen.get_height()))
         # self.setup_game_pieces(screen.get_width(), screen.get_height())
 
@@ -171,11 +177,11 @@ class Game:
         for i in range(1, number + 1):
             pos_y = height / 2
             if i % 2 != 0:
-                team = 1
+                team = 0
                 color = "blue"
                 pos_x = 0
             else:
-                team = 2
+                team = 1
                 color = "red"
                 pos_x = width
 

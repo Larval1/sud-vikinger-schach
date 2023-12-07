@@ -8,29 +8,26 @@ class AimAssist:
         self.up_down_moving = False
         self.side_side_moving = False
         self.screen = pg.display.get_surface()
-        self.height = 0
-        self.width = 0
+        self.angel=0
+        self.throwPower = self.screen.get_width()/4
         self.height_direction = False
         self.width_direction = False
         self.start_side = True
+        self.vector = pg.Vector2()
 
     def reset(self):
-        self.start_side=not self.start_side
-        if self.start_side:
-            self.width = 0
-        else:
-            self.width =self.screen.get_width()
+        self.throwPower =self.screen.get_width()/4
 
-        self.height = 0
+        self.angel=0
         self.up_down_moving = False
         self.side_side_moving = False
+    def get_angel(self):
+        return  self.angel
 
-
-    def get_height(self):
-        return self.height
-
-    def get_width(self):
-        return self.width
+    def get_throwPower(self):
+        return self.throwPower
+    def get_vector(self):
+        return self.vector
 
     def is_up_down_moving(self):
         return self.up_down_moving
@@ -52,44 +49,34 @@ class AimAssist:
 
     def update(self, game_state):
         if game_state == 'aim_assist':
-            self.move_height()
+            self.move_angel()
         if game_state == 'trow_power':
-            self.move_width()
+            self.move_throwPower()
 
-        # print(pg.Vector2(0, self.screen.get_height() / 2))
+        self.vector.from_polar((self.get_throwPower(), self.get_angel()))
 
-        pg.draw.circle(
-            self.screen,
-            "green",
-            # pg.Vector2(self.screen.get_width() / 2, self.screen.get_height() /2),
-            pg.Vector2(self.screen.get_width() / self.screen.get_width() * self.width,
-                       self.screen.get_height() / self.screen.get_height() * self.height
-                       ),
-            50
-        )
-
-    def move_height(self):
+    def move_angel(self):
         if self.up_down_moving:
             if not self.height_direction:
-                if self.height < self.screen.get_height():
-                    self.height += 10
+                if self.angel <70:
+                    self.angel += 2
                 else:
                     self.height_direction = True
             elif self.height_direction:
-                if self.height >= 0:
-                    self.height -= 10
+                if self.angel >-70:
+                    self.angel -= 2
                 else:
                     self.height_direction = False
 
-    def move_width(self):
+    def move_throwPower(self):
         if self.side_side_moving:
             if not self.width_direction:
-                if self.width < self.screen.get_width():
-                    self.width += 10
+                if self.throwPower < self.screen.get_width():
+                    self.throwPower += 10
                 else:
                     self.width_direction = True
             elif self.width_direction:
-                if self.width >= 0:
-                    self.width -= 10
+                if self.throwPower >= 0:
+                    self.throwPower -= 10
                 else:
                     self.width_direction = False

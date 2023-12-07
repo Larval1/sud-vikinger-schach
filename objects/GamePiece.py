@@ -12,19 +12,17 @@ class GamePiece(pg.sprite.Sprite):
         self.area = self.screen.get_rect()
         self.rect.topleft = pos_x - self.rect.width / 2, pos_y - self.rect.height / 2
 
-    def update(self, x, y, game_state):
+    def update(self, aimAssistVector, game_state):
         # self.rect.topleft = pos_x - self.rect.width/2, pos_y - self.rect.height/2
         # if game_state == 'hit':
-        if self.check_kolision(x, y) and game_state=='hit':
+        if self.check_kolision(aimAssistVector) and game_state == 'hit':
             self.image = pg.transform.grayscale(self.image, self.image)
         return
 
-    def check_kolision(self, x, y):
-        size=100
+    def check_kolision(self, aimAssistVector):
 
-        rect=pg.Rect(x-size/2,y-size/2, size, size)
-
-        if self.rect.clip(rect):
+        if (aimAssistVector.distance_to(self.rect.center) <= 50):
+            print(aimAssistVector.distance_to(self.rect.center))
             return True
         else:
             return False
