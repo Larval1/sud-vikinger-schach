@@ -1,5 +1,4 @@
 import pygame as pg
-from objects.AimAssist import AimAssist
 
 
 class Player(pg.sprite.Sprite):

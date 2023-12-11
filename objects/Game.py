@@ -1,9 +1,10 @@
-import pygame as pg
-from objects.King import King
-from objects.GamePiece import GamePiece
-from objects.AimAssist import AimAssist
-from objects.Player import Player
 import os
+
+import pygame as pg
+
+from objects.AimAssist import AimAssist
+from objects.GamePiece import GamePiece
+from objects.King import King
 
 
 def start_game():
@@ -39,13 +40,13 @@ def start_game():
 
                 match game.get_game_state():
                     case 'aim_assist' | 'rethrow_aim_assist':
-                        if not game.aim_assist.is_up_down_moving():
+                        if not game.aim_assist.up_down_moving:
                             game.aim_assist.start_up_down_moving()
                         else:
                             game.aim_assist.stop_up_down_moving()
                             game.next_game_state()
-                    case 'trow_power'| 'rethrow_trow_power':
-                        if not game.aim_assist.is_side_side_moving():
+                    case 'trow_power' | 'rethrow_trow_power':
+                        if not game.aim_assist.side_side_moving:
                             game.aim_assist.start_side_side_moving()
                         else:
                             game.aim_assist.stop_side_side_moving()
@@ -79,16 +80,17 @@ def start_game():
         )
         game.game_pieces.draw(screen)
 
-        game.aim_assist.update(game.get_game_state())
+        game.aim_assist.update(x.yx)
+
 
         # flip() the display to put your work on screen
         pg.display.flip()
 
         match game.get_game_state():
-            case 'hit'|'reset':
+            case 'hit' | 'reset':
                 game.next_game_state()
-            case'rethrow_hit':
-                print(game.aim_assist.get_vector())
+            case 'rethrow_hit':
+                game.next_game_state()
 
         # limits FPS to 60
         # dt is delta time in seconds since last frame, used for framerate-
@@ -148,7 +150,7 @@ class Game:
                 self.aim_assist.reset()
                 self.switch_player()
                 self.game_state = 'aim_assist'
-        print(self.game_state)
+
     def get_game_state(self):
         return self.game_state
 
