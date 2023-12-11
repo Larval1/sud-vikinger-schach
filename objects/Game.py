@@ -6,101 +6,6 @@ from objects.AimAssist import AimAssist
 from objects.GamePiece import GamePiece
 from objects.King import King
 
-
-def start_game():
-    # pygame setup
-    pg.init()
-    screen = pg.display.set_mode((1280, 720))
-    clock = pg.time.Clock()
-    running = True
-    dt = 0
-
-    center_line_start = pg.Vector2(screen.get_width() / 2, 0)
-    center_line_stop = pg.Vector2(screen.get_width() / 2, screen.get_height())
-
-    game = Game(screen)
-    game.setup_game(screen)
-
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill('#80B2C9')
-
-    pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
-
-    while running:
-        screen.fill('#80B2C9')
-        # poll for events
-        # pygame.QUIT event means the user clicked X to close your window
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-            if event.type == pg.MOUSEBUTTONDOWN:
-                match game.get_game_state():
-                    case 'rethrow':
-                        game.next_game_state()
-
-                match game.get_game_state():
-                    case 'aim_assist' | 'rethrow_aim_assist':
-                        if not game.aim_assist.up_down_moving:
-                            game.aim_assist.start_up_down_moving()
-                        else:
-                            game.aim_assist.stop_up_down_moving()
-                            game.next_game_state()
-                    case 'trow_power' | 'rethrow_trow_power':
-                        if not game.aim_assist.side_side_moving:
-                            game.aim_assist.start_side_side_moving()
-                        else:
-                            game.aim_assist.stop_side_side_moving()
-                            game.next_game_state()
-
-        # fill the screen with a color to wipe away anything from last frame
-        screen.fill('#80B2C9')
-
-        pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
-
-        pg.draw.circle(screen, "red", game.playerPosition1, 20)
-        pg.draw.circle(screen, "blue", game.playerPosition2, 20)
-
-        if game.activePlayer == 'left':
-            x = game.activePlayerPosition + game.aim_assist.get_vector()
-        else:
-            x = game.activePlayerPosition - game.aim_assist.get_vector()
-
-        pg.draw.line(screen, "yellow", game.activePlayerPosition, x, 3)
-        pg.draw.circle(
-            screen,
-            "green",
-            x,
-            50,
-        )
-        # refresh sprites
-        game.game_pieces.update(
-            x,
-            game.get_game_state(),
-            game
-        )
-        game.game_pieces.draw(screen)
-
-        game.aim_assist.update(x.yx)
-
-
-        # flip() the display to put your work on screen
-        pg.display.flip()
-
-        match game.get_game_state():
-            case 'hit' | 'reset':
-                game.next_game_state()
-            case 'rethrow_hit':
-                game.next_game_state()
-
-        # limits FPS to 60
-        # dt is delta time in seconds since last frame, used for framerate-
-        # independent physics.
-        dt = clock.tick(60) / 1000
-
-    pg.quit()
-    return
-
-
 def load_image(name, color_key=None, scale=1):
     data_dir = os.path.join(os.path.abspath(""), "assets")
 
@@ -150,9 +55,6 @@ class Game:
                 self.aim_assist.reset()
                 self.switch_player()
                 self.game_state = 'aim_assist'
-
-    def get_game_state(self):
-        return self.game_state
 
     def switch_player(self):
         if self.activePlayer == 'left':

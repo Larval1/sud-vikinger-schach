@@ -15,11 +15,11 @@ class GamePiece(pg.sprite.Sprite):
         self.rethrown = False
         self.rethrowActiveGamePiece = False
 
-    def update(self, aimAssistVector, game_state, game):
-        if self.check_collision(aimAssistVector) and game_state == 'hit':
+    def update(self, aimAssistVector,  game):
+        if self.check_collision(aimAssistVector) and game.game_state == 'hit':
             self.image = pg.transform.grayscale(self.image)
             self.hit_management(game)
-        if self.rethrowActiveGamePiece and game_state == 'rethrow_hit':
+        if self.rethrowActiveGamePiece and game.game_state == 'rethrow_hit':
             self.rethrowActiveGamePiece = False
             self.image = self.OriginalImage
             self.rect.center = aimAssistVector
@@ -34,7 +34,7 @@ class GamePiece(pg.sprite.Sprite):
             self.kill()
     def check_collision(self, aimAssistVector):
 
-        if (aimAssistVector.distance_to(self.rect.center) <= 60):
+        if (aimAssistVector.distance_to(self.rect.center) <= 30):
             return True
         else:
             return False
