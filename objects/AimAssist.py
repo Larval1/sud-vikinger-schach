@@ -7,13 +7,13 @@ class AimAssist:
         self.side_side_moving = False
         self.screen = pg.display.get_surface()
         self.angel = 0
-        self.throwPower = self.screen.get_width() / 4
+        self.throwPower = self.screen.get_width() / 6
         self.height_direction = False
         self.width_direction = False
         self.start_side = True
 
     def reset(self):
-        self.throwPower = self.screen.get_width() / 4
+        self.throwPower = self.screen.get_width() / 6
         self.angel = 0
         self.up_down_moving = False
         self.side_side_moving = False

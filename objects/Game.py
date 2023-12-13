@@ -45,8 +45,6 @@ class Game:
                 self.game_state = 'hit'
             case 'hit':
                 self.game_state = 'reset'
-            case 'rethrow':
-                self.game_state = 'rethrow_aim_assist'
             case 'rethrow_aim_assist':
                 self.game_state = 'rethrow_trow_power'
             case 'rethrow_trow_power':

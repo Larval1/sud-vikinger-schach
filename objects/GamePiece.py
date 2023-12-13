@@ -26,7 +26,7 @@ class GamePiece(pg.sprite.Sprite):
         return
 
     def hit_management(self, game):
-        game.game_state = 'rethrow'
+        game.game_state = 'rethrow_aim_assist'
         game.aim_assist.reset()
         if not self.rethrown:
             self.rethrown = True

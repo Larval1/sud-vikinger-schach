@@ -12,10 +12,6 @@ def game_loop(game, screen, font, clock, running, center_line_start, center_line
                 running = False
             if event.type == pg.MOUSEBUTTONDOWN:
                 match game.game_state:
-                    case 'rethrow':
-                        game.next_game_state()
-
-                match game.game_state:
                     case 'aim_assist' | 'rethrow_aim_assist':
                         if not game.aim_assist.up_down_moving:
                             game.aim_assist.start_up_down_moving()
@@ -50,6 +46,8 @@ def game_loop(game, screen, font, clock, running, center_line_start, center_line
         )
 
         game.aim_assist.update(x.yx)
+
+        print(game.activePlayerPosition.yx.x)
 
         # refresh sprites
         game.game_pieces.update(x, game)
