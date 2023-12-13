@@ -6,6 +6,7 @@ from objects.AimAssist import AimAssist
 from objects.GamePiece import GamePiece
 from objects.King import King
 
+
 def load_image(name, color_key=None, scale=1):
     data_dir = os.path.join(os.path.abspath(""), "assets")
 
@@ -33,7 +34,7 @@ class Game:
         self.playerPosition1 = pg.Vector2(0, screen.get_height() / 2)
         self.playerPosition2 = pg.Vector2(screen.get_width(), screen.get_height() / 2)
         self.activePlayerPosition = pg.Vector2()
-        self.gameOverMessage='loses'
+        self.gameOverMessage = 'loses'
 
     def next_game_state(self):
         match self.game_state:
@@ -73,13 +74,13 @@ class Game:
     def setup_game_pieces(self, width, height):
         game_pieces = []
         temp_height = 0
-        # for i in range(0, 2):
-        #     temp_height += height / 6
-        #     game_pieces.append(GamePiece(width / 2, temp_height))
-        # temp_height += height / 6
+        for i in range(0, 2):
+            temp_height += height / 6
+            game_pieces.append(GamePiece(width / 2, temp_height))
+        temp_height += height / 6
         game_pieces.append(King(width / 2, height / 2))
-        # for i in range(0, 2):
-        #     temp_height += height / 6
-        #     game_pieces.append(GamePiece(width / 2, temp_height))
+        for i in range(0, 2):
+            temp_height += height / 6
+            game_pieces.append(GamePiece(width / 2, temp_height))
 
         return game_pieces

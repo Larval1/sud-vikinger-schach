@@ -67,7 +67,7 @@ def game_loop(game, screen, font, clock, running, center_line_start, center_line
 
     if game.game_state == 'game_over':
         # screen.fill('#b43126')
-        text = font.render(f"{game.activePlayer} {game.gameOverMessage}", True, (255,0, 0))
+        text = font.render(f"{game.activePlayer} {game.gameOverMessage}", True, (255, 0, 0))
         screen.blit(text, text.get_rect(center=screen.get_rect().center))
         pg.display.flip()
         while True:
