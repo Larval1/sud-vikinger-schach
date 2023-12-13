@@ -35,6 +35,17 @@ class Game:
         self.playerPosition2 = pg.Vector2(screen.get_width(), screen.get_height() / 2)
         self.activePlayerPosition = pg.Vector2()
         self.gameOverMessage = 'loses'
+        self.sound={}
+
+
+    def load_sound(self):
+        pg.mixer.music.load("assets/jingle.mp3")
+        pg.mixer.music.set_volume(0.05)
+        pg.mixer.music.play(-1)
+
+        wet_fart = pg.mixer.Sound("assets/wet-fart.mp3")
+        # wet_fart.set_volume(0.2)
+        self.sound['wet_fart']=wet_fart
 
     def next_game_state(self):
         match self.game_state:

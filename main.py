@@ -88,12 +88,9 @@ def start_game():
     center_line_start = pg.Vector2(screen.get_width() / 2, 0)
     center_line_stop = pg.Vector2(screen.get_width() / 2, screen.get_height())
 
-    pg.mixer.music.load("assets/jinge.mp3")
-    pg.mixer.music.play(-1)
-    pg.mixer.music.set_volume(0.05)
-
     game = Game(screen)
     game.setup_game(screen)
+    game.load_sound()
 
     game_loop(game, screen, font, clock, running, center_line_start, center_line_stop)
 
