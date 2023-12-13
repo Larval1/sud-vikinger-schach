@@ -7,7 +7,11 @@ class King(GamePiece):
         GamePiece.__init__(self, pos_x, pos_y)
         self.image, self.rect = Game.load_image("king.png")
         self.rect.topleft = pos_x - self.rect.width / 2, pos_y - self.rect.height / 2
-    def hit_management(self,game):
-        if len(game.game_pieces) >1:
-            game.game_state='game_over'
+
+    def hit_management(self, game):
+        if len(game.game_pieces) > 1:
+            game.game_state = 'game_over'
+        else:
+            game.game_state = 'game_over'
+            game.gameOverMessage = 'wins'
         self.kill()
