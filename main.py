@@ -47,8 +47,6 @@ def game_loop(game, screen, font, clock, running, center_line_start, center_line
 
         game.aim_assist.update(x.yx)
 
-        print(game.activePlayerPosition.yx.x)
-
         # refresh sprites
         game.game_pieces.update(x, game)
         game.game_pieces.draw(screen)
@@ -89,6 +87,9 @@ def start_game():
 
     center_line_start = pg.Vector2(screen.get_width() / 2, 0)
     center_line_stop = pg.Vector2(screen.get_width() / 2, screen.get_height())
+
+    pg.mixer.music.load("assets/jinge.mp3")
+    pg.mixer.music.play()
 
     game = Game(screen)
     game.setup_game(screen)
