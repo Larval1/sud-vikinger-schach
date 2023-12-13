@@ -13,6 +13,7 @@ def start_game():
     screen = pg.display.set_mode((1280, 720))
     clock = pg.time.Clock()
     running = True
+
     dt = 0
 
     center_line_start = pg.Vector2(screen.get_width() / 2, 0)
@@ -27,6 +28,7 @@ def start_game():
     pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
 
     while running:
+
         screen.fill('#80B2C9')
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
@@ -46,7 +48,7 @@ def start_game():
                             game.aim_assist.stop_up_down_moving()
                             game.aim_assist.stopThrowPower = False
                             game.next_game_state()
-                    case "get_throw_power" | "get_rethrow_power":
+                    case 'get_throw_power' | 'get_rethrow_power':
                         game.aim_assist.stopThrowPower = True
                         game.next_game_state()
                     case 'trow_power' | 'rethrow_trow_power':
@@ -55,6 +57,8 @@ def start_game():
                         # else:
                         # game.aim_assist.stop_side_side_moving()
                         game.next_game_state()
+                    case 'game_over':
+                        return
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
@@ -64,7 +68,6 @@ def start_game():
         pg.draw.circle(screen, "red", game.playerPosition1, 20)
         pg.draw.circle(screen, "blue", game.playerPosition2, 20)
 
-        print(game.game_state)
         if game.get_game_state() == 'get_throw_power' or game.get_game_state() == 'get_rethrow_power':
             if game.activePlayer == 'left':
                 pg.draw.rect(screen, 'black',
@@ -83,11 +86,11 @@ def start_game():
 
         if game.activePlayer == 'left':
             x = game.activePlayerPosition + game.aim_assist.get_vector()
-            if game.game_state == "trow_power" or game.game_state == 'rethrow_trow_power':
+            if game.game_state == "trow_power" or game.game_state == 'rethrow_trow_power' or game.game_state == 'hit' or game.game_state == 'rethrow_hit':
                 x = game.aim_assist.get_target_vector() + game.activePlayerPosition
         else:
             x = game.activePlayerPosition - game.aim_assist.get_vector()
-            if game.game_state == "trow_power" or game.game_state == 'rethrow_trow_power':
+            if game.game_state == "trow_power" or game.game_state == 'rethrow_trow_power' or game.game_state == 'hit' or game.game_state == 'rethrow_hit':
                 x = game.activePlayerPosition - game.aim_assist.get_target_vector()
 
         if game.game_state == 'trow_power' or game.game_state == 'rethrow_trow_power':
@@ -127,7 +130,7 @@ def start_game():
         # limits FPS to 60
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
-        dt = clock.tick(20) / 1000
+        dt = clock.tick(60) / 1000
 
     pg.quit()
     return

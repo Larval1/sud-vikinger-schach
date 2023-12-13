@@ -53,7 +53,6 @@ class AimAssist:
                 self.height_direction = False
 
     def move_throwPower(self, target_point):
-        print(self.throwPower)
         if self.countUp:
             if self.throwPower < 100:
                 self.throwPower += 1
