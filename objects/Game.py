@@ -44,13 +44,17 @@ def start_game():
                             game.aim_assist.start_up_down_moving()
                         else:
                             game.aim_assist.stop_up_down_moving()
+                            game.aim_assist.stopThrowPower = False
                             game.next_game_state()
+                    case "get_throw_power" | "get_rethrow_power":
+                        game.aim_assist.stopThrowPower = True
+                        game.next_game_state()
                     case 'trow_power' | 'rethrow_trow_power':
-                        if not game.aim_assist.side_side_moving:
-                            game.aim_assist.start_side_side_moving()
-                        else:
-                            game.aim_assist.stop_side_side_moving()
-                            game.next_game_state()
+                        # if not game.aim_assist.side_side_moving:
+                        # game.aim_assist.start_side_side_moving()
+                        # else:
+                        # game.aim_assist.stop_side_side_moving()
+                        game.next_game_state()
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
@@ -60,17 +64,46 @@ def start_game():
         pg.draw.circle(screen, "red", game.playerPosition1, 20)
         pg.draw.circle(screen, "blue", game.playerPosition2, 20)
 
+        print(game.game_state)
+        if game.get_game_state() == 'get_throw_power' or game.get_game_state() == 'get_rethrow_power':
+            if game.activePlayer == 'left':
+                pg.draw.rect(screen, 'black',
+                             pg.Rect(game.activePlayerPosition.x + 100, game.activePlayerPosition.y + 50, 20, 200))
+                pg.draw.rect(screen, 'red', pg.Rect(game.activePlayerPosition.x + 100,
+                                                    game.activePlayerPosition.y + 50 + 200 -
+                                                    (2 * game.aim_assist.throwPower), 20,
+                                                    (2 * game.aim_assist.throwPower)))
+            else:
+                pg.draw.rect(screen, 'black',
+                             pg.Rect(game.activePlayerPosition.x - 100, game.activePlayerPosition.y + 50, 20, 200))
+                pg.draw.rect(screen, 'red', pg.Rect(game.activePlayerPosition.x - 100,
+                                                    game.activePlayerPosition.y + 50 + 200 -
+                                                    (2 * game.aim_assist.throwPower), 20,
+                                                    (2 * game.aim_assist.throwPower)))
+
         if game.activePlayer == 'left':
             x = game.activePlayerPosition + game.aim_assist.get_vector()
+            if game.game_state == "trow_power" or game.game_state == 'rethrow_trow_power':
+                x = game.aim_assist.get_target_vector() + game.activePlayerPosition
         else:
             x = game.activePlayerPosition - game.aim_assist.get_vector()
+            if game.game_state == "trow_power" or game.game_state == 'rethrow_trow_power':
+                x = game.activePlayerPosition - game.aim_assist.get_target_vector()
+
+        if game.game_state == 'trow_power' or game.game_state == 'rethrow_trow_power':
+            if x.y > screen.get_height():
+                x.y = screen.get_height()
+            elif x.y < 0:
+                x.y = 0
+
+
 
         pg.draw.line(screen, "yellow", game.activePlayerPosition, x, 3)
         pg.draw.circle(
             screen,
             "green",
             x,
-            50,
+            20,
         )
         # refresh sprites
         game.game_pieces.update(
@@ -81,7 +114,6 @@ def start_game():
         game.game_pieces.draw(screen)
 
         game.aim_assist.update(x.yx)
-
 
         # flip() the display to put your work on screen
         pg.display.flip()
@@ -95,7 +127,7 @@ def start_game():
         # limits FPS to 60
         # dt is delta time in seconds since last frame, used for framerate-
         # independent physics.
-        dt = clock.tick(60) / 1000
+        dt = clock.tick(20) / 1000
 
     pg.quit()
     return
@@ -132,8 +164,9 @@ class Game:
     def next_game_state(self):
         match self.game_state:
             case 'aim_assist':
+                self.game_state = 'get_throw_power'
+            case 'get_throw_power':
                 self.game_state = 'trow_power'
-                self.aim_assist.start_side_side_moving()
             case 'trow_power':
                 self.game_state = 'hit'
             case 'hit':
@@ -141,6 +174,8 @@ class Game:
             case 'rethrow':
                 self.game_state = 'rethrow_aim_assist'
             case 'rethrow_aim_assist':
+                self.game_state = 'get_rethrow_power'
+            case 'get_rethrow_power':
                 self.game_state = 'rethrow_trow_power'
             case 'rethrow_trow_power':
                 self.game_state = 'rethrow_hit'

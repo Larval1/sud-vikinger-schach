@@ -34,7 +34,7 @@ class GamePiece(pg.sprite.Sprite):
             self.kill()
     def check_collision(self, aimAssistVector):
 
-        if (aimAssistVector.distance_to(self.rect.center) <= 60):
+        if (aimAssistVector.distance_to(self.rect.center) <= 600):
             return True
         else:
             return False
