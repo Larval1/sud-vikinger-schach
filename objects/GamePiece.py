@@ -46,7 +46,7 @@ class GamePiece(pg.sprite.Sprite):
         if (aimAssistVector.distance_to(self.rect.center) <= 60):
             medieval_horn = pg.mixer.Sound("assets/medieval_horn.mp3")
             medieval_horn.set_volume(1)
-            pg.mixer.Sound.play(medieval_horn)
+            medieval_horn.play()
             return True
         else:
             return False
