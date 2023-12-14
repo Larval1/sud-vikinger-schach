@@ -7,7 +7,7 @@ class GamePiece(pg.sprite.Sprite):
 
     def __init__(self, pos_x, pos_y):
         pg.sprite.Sprite.__init__(self)
-        self.image, self.rect = game.load_image("game_piece.png")
+        self.image, self.rect = game.load_image("game_piece.jpg")
         self.OriginalImage = self.image
         self.screen = pg.display.get_surface()
         self.area = self.screen.get_rect()
@@ -43,7 +43,7 @@ class GamePiece(pg.sprite.Sprite):
 
     def check_collision(self, aimAssistVector):
 
-        if (aimAssistVector.distance_to(self.rect.center) <= 120):
+        if (aimAssistVector.distance_to(self.rect.center) <= 60):
             medieval_horn = pg.mixer.Sound("assets/medieval_horn.mp3")
             medieval_horn.set_volume(1)
             pg.mixer.Sound.play(medieval_horn)
