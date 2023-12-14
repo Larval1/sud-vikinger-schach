@@ -17,7 +17,7 @@ class GamePiece(pg.sprite.Sprite):
 
     def update(self, aimAssistVector, game):
         if self.check_collision(aimAssistVector) and game.game_state == 'hit':
-            pg.mixer.Sound.play(game.sound['wet_fart'])
+            pg.mixer.Sound.play(game.sound['medieval_horn'])
             self.image = pg.transform.grayscale(self.image)
             self.hit_management(game)
 

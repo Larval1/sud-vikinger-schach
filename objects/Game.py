@@ -43,9 +43,9 @@ class Game:
         pg.mixer.music.set_volume(0.05)
         pg.mixer.music.play(-1)
 
-        wet_fart = pg.mixer.Sound("assets/wet-fart.mp3")
+        wet_fart = pg.mixer.Sound("assets/medieval_horn.mp3")
         # wet_fart.set_volume(0.2)
-        self.sound['wet_fart']=wet_fart
+        self.sound['medieval_horn']=wet_fart
 
     def next_game_state(self):
         match self.game_state:

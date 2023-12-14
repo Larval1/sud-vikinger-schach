@@ -3,7 +3,7 @@ import pygame as pg
 from objects.Game import Game
 
 
-def game_loop(game, screen, font, clock, running, center_line_start, center_line_stop):
+def game_loop(game, screen, font, clock, running, center_line_start, center_line_stop,background):
     while running and game.game_state != 'game_over':
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
@@ -26,6 +26,7 @@ def game_loop(game, screen, font, clock, running, center_line_start, center_line
                             game.next_game_state()
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
+        screen.blit(background, (0, 0))
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
 
@@ -84,6 +85,7 @@ def start_game():
     running = True
     dt = 0
     font = pg.font.SysFont(None, 50)
+    background = pg.transform.scale(pg.image.load('assets/ocean_background.jpg'), (screen.get_width(), screen.get_height()))
 
     center_line_start = pg.Vector2(screen.get_width() / 2, 0)
     center_line_stop = pg.Vector2(screen.get_width() / 2, screen.get_height())
@@ -92,7 +94,7 @@ def start_game():
     game.setup_game(screen)
     game.load_sound()
 
-    game_loop(game, screen, font, clock, running, center_line_start, center_line_stop)
+    game_loop(game, screen, font, clock, running, center_line_start, center_line_stop,background)
 
     pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
 
