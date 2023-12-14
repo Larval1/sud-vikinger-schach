@@ -1,4 +1,5 @@
 import os
+from random import random
 
 import pygame as pg
 
@@ -20,8 +21,9 @@ def start_game():
     center_line_stop = pg.Vector2(screen.get_width() / 2, screen.get_height())
 
     pg.mixer.music.load("assets/jingle.mp3")
-    pg.mixer.music.set_volume(0.25)
+    pg.mixer.music.set_volume(0.05)
     pg.mixer.music.play(-1)
+
 
     game = Game(screen)
     game.setup_game(screen)
@@ -66,6 +68,8 @@ def start_game():
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
+
+
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
 
@@ -197,6 +201,9 @@ class Game:
         return self.game_state
 
     def switch_player(self):
+        medieval_horn = pg.mixer.Sound("assets/medieval-horn77565.mp3")
+        medieval_horn.set_volume(1)
+        pg.mixer.Sound.play(medieval_horn)
         if self.activePlayer == 'left':
             self.activePlayer = 'right'
             self.activePlayerPosition = self.playerPosition2
