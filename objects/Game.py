@@ -204,9 +204,6 @@ class Game:
         return self.game_state
 
     def switch_player(self):
-        medieval_horn = pg.mixer.Sound("assets/medieval-horn77565.mp3")
-        medieval_horn.set_volume(1)
-        pg.mixer.Sound.play(medieval_horn)
         if self.activePlayer == 'left':
             self.activePlayer = 'right'
             self.activePlayerPosition = self.playerPosition2

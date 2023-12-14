@@ -43,7 +43,10 @@ class GamePiece(pg.sprite.Sprite):
 
     def check_collision(self, aimAssistVector):
 
-        if (aimAssistVector.distance_to(self.rect.center) <= 60):
+        if (aimAssistVector.distance_to(self.rect.center) <= 120):
+            medieval_horn = pg.mixer.Sound("assets/medieval_horn.mp3")
+            medieval_horn.set_volume(1)
+            pg.mixer.Sound.play(medieval_horn)
             return True
         else:
             return False
