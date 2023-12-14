@@ -14,6 +14,8 @@ def start_game():
     screen = pg.display.set_mode((1280, 720))
     clock = pg.time.Clock()
     running = True
+    background = pg.image.load('assets/ocean_background.jpg')
+    background = pg.transform.scale(background, (screen.get_width(), screen.get_height()))
 
     dt = 0
 
@@ -36,6 +38,7 @@ def start_game():
     while running:
 
         screen.fill('#80B2C9')
+
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
         for event in pg.event.get():
@@ -68,7 +71,7 @@ def start_game():
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill('#80B2C9')
-
+        screen.blit(background, (0, 0))
 
 
         pg.draw.line(screen, "black", center_line_start, center_line_stop, 5)
