@@ -20,7 +20,7 @@ def start_game():
     center_line_stop = pg.Vector2(screen.get_width() / 2, screen.get_height())
 
     pg.mixer.music.load("assets/jingle.mp3")
-    pg.mixer.music.set_volume(0.05)
+    pg.mixer.music.set_volume(0.25)
     pg.mixer.music.play(-1)
 
     game = Game(screen)
