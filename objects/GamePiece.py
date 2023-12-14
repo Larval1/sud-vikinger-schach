@@ -23,15 +23,24 @@ class GamePiece(pg.sprite.Sprite):
             self.rethrowActiveGamePiece = False
             self.image = self.OriginalImage
             self.rect.center = aimAssistVector
+            if game.activePlayer == 'left':
+                if self.rect.x < self.screen.get_width() / 2:
+                    self.kill()
+            else:
+                if self.rect.x > self.screen.get_width() / 2:
+                    self.kill()
         return
-    def hit_management(self,game):
+
+    def hit_management(self, game):
         game.game_state = 'rethrow'
         game.aim_assist.reset()
         if not self.rethrown:
             self.rethrown = True
             self.rethrowActiveGamePiece = True
         else:
+            game.game_state = 'reset'
             self.kill()
+
     def check_collision(self, aimAssistVector):
 
         if (aimAssistVector.distance_to(self.rect.center) <= 60):
